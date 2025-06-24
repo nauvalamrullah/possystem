@@ -1,0 +1,46 @@
+{% extends 'dashboard.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Keranjang Belanja</h2>
+
+    {% if cart_items %}
+    <table class="table table-bordered mt-4">
+        <thead>
+            <tr>
+                <th>Nama Produk</th>
+                <th>Harga</th>
+                <th>Jumlah</th>
+                <th>Total Harga</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart_items %}
+            <tr>
+                <td>{{ item.product.name }}</td>
+                <td>Rp. {{ item.product.price | format_price }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>Rp. {{ item.total_price | format_price }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="d-flex justify-content-between">
+        <h4>Total Pembayaran: Rp. {{ total_price | format_price }}</h4>
+        <div>
+            <a href="{{ url_for('show_checkout_form') }}" class="btn btn-success">Proses Pembayaran</a>
+
+                <input type="hidden" name="nama" value="Nama Dummy">
+                <input type="hidden" name="alamat" value="Alamat Dummy">
+                <button type="submit" class="btn btn-success">Proses Pembayaran</button>
+            </form>
+            
+        </div>
+    </div>
+
+    {% else %}
+    <p class="text-center">Keranjang belanja Anda kosong.</p>
+    {% endif %}
+</div>
+{% endblock %}

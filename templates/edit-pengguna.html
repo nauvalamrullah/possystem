@@ -1,0 +1,97 @@
+{% extends 'dashboard.html' %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h2 class="mb-3">Kelola Pengguna</h2>
+        <div class="d-flex mb-3">
+            <a href="/edit-pengguna" class="btn btn-primary me-2">Tambah / Edit Anggota</a>
+            <button class="btn btn-danger" onclick="scrollToUsers()">Hapus / Tampilkan Data Pengguna</button>
+        </div>
+
+        <h3>Tambah Anggota</h3>
+        <form method="POST" action="/edit-pengguna" class="row g-3">
+            <input type="hidden" name="user_id" id="user_id">
+            
+            <div class="col-md-6">
+                <label class="form-label">Nama Lengkap:</label>
+                <input type="text" name="fullname" id="fullname" class="form-control" required>
+            </div>
+            
+            <div class="col-md-6">
+                <label class="form-label">Email:</label>
+                <input type="email" name="email" id="email" class="form-control" required>
+            </div>
+            
+            <div class="col-md-6">
+                <label class="form-label">Password:</label>
+                <input type="password" name="password" id="password" class="form-control">
+                <small class="text-muted">Kosongkan jika tidak ingin mengubah password.</small>
+            </div>
+            
+            <div class="col-md-6">
+                <label class="form-label">Nomor Telepon:</label>
+                <input type="text" name="phone" id="phone" class="form-control" required>
+            </div>
+            
+            <div class="col-md-6">
+                <label class="form-label">Peran:</label>
+                <select name="role" id="role" class="form-select">
+                    <option value="investor">Investor</option>
+                    <option value="investy">Investy</option>
+                    <option value="bank">Bank</option>
+                </select>
+            </div>
+            
+            <div class="col-12">
+                <button type="submit" class="btn btn-success">Simpan</button>
+            </div>
+        </form>
+
+        <h3 class="mt-4" id="userTable">Daftar Pengguna</h3>
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Nama</th>
+                    <th>Email</th>
+                    <th>Telepon</th>
+                    <th>Peran</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.fullname }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.phone }}</td>
+                    <td>{{ user.role }}</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm" onclick="editUser('{{ user.id }}', '{{ user.fullname }}', '{{ user.email }}', '{{ user.phone }}', '{{ user.role }}')">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <form method="POST" action="/hapus-pengguna/{{ user.id }}" style="display:inline;">
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash"></i> Hapus
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function editUser(id, fullname, email, phone, role) {
+            document.getElementById('user_id').value = id;
+            document.getElementById('fullname').value = fullname;
+            document.getElementById('email').value = email;
+            document.getElementById('phone').value = phone;
+            document.getElementById('role').value = role;
+        }
+
+        function scrollToUsers() {
+            document.getElementById('userTable').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'dashboard.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Keranjang Belanja</h2>
+
+    {% if cart_items %}
+    <table class="table table-bordered mt-4">
+        <thead>
+            <tr>
+                <th>Nama Produk</th>
+                <th>Harga</th>
+                <th>Jumlah</th>
+                <th>Total Harga</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart_items %}
+            <tr>
+                <td>{{ item.product.name }}</td>
+                <td>Rp. {{ item.product.price | format_price }}</td>
+                <td>
+                    <form action="{{ url_for('update_cart', item_id=item.cart_item_id) }}" method="POST" style="display: inline;">
+                      <button name="action" value="decrease">-</button>
+                    </form>
+                    {{ item.quantity }}
+                    <form action="{{ url_for('update_cart', item_id=item.cart_item_id) }}" method="POST" style="display: inline;">
+                      <button name="action" value="increase">+</button>
+                    </form>
+                </td>
+                
+                <td>
+                    <form action="{{ url_for('delete_cart_item', item_id=item.cart_item_id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus item ini?')">
+                      <button type="submit" style="color: red;">Hapus</button>
+                    </form>
+                </td>                
+                  
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="d-flex justify-content-between">
+        <h4>Total Pembayaran: Rp. {{ total_price | format_price }}</h4>
+        <div>
+            <a href="{{ url_for('checkout_form') }}" class="btn btn-success">Proses Pembayaran</a>
+        </div>
+    </div>
+
+    {% else %}
+    <p class="text-center">Keranjang belanja Anda kosong.</p>
+    {% endif %}
+</div>
+{% endblock %}

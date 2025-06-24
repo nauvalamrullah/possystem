@@ -1,0 +1,42 @@
+{% extends "dashboard.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-3">Kelola Produk</h2>
+
+    <!-- Tombol Tambah Produk -->
+    <a href="{{ url_for('tambah_produk') }}" class="btn btn-primary mb-3">Tambah Produk</a>
+
+    <!-- Tabel Produk -->
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Nama Produk</th>
+                    <th>Harga</th>
+                    <th>Stok</th> <!-- Tambahan -->
+                    <th>Gambar</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td>{{ product.id }}</td>
+                    <td>{{ product.name }}</td>
+                    <td>Rp {{ "{:,.2f}".format(product.price | float) }}</td>
+                    <td>{{ product.stok }}</td> <!-- Tambahan -->
+                    <td>
+                        <img src="{{ product.image }}" width="50" height="50" class="rounded">
+                    </td>
+                    <td>
+                        <a href="{{ url_for('edit_produk', id=product.id) }}" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="{{ url_for('hapus_produk', id=product.id) }}" class="btn btn-sm btn-danger" onclick="return confirm('Yakin hapus?')">Hapus</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

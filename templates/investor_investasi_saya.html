@@ -1,0 +1,63 @@
+{% extends "dashboard.html" %}
+
+
+
+{% block content %}
+<h2 class="mb-3">Daftar Investasi Saya</h2>
+<div class="container mt-4">
+    <div class="table-responsive">
+        <table class="table table-bordered shadow">
+            <thead class="table-light">
+                <tr>
+                    <th>ID Investasi</th>
+                    <th>Nama Usaha</th>
+                    <th>Jumlah Investasi</th>
+                    <th>Tanggal Investasi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for investasi in daftar_investasi %}
+                <tr>
+                    <td>{{ investasi['id'] }}</td>
+                    <td>{{ investasi['business_name'] }}</td>
+                    <td>Rp {{ "{:,.0f}".format(investasi['amount']) }}</td>
+                    <td>{{ investasi['created_at'] }}</td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <strong>Penggunaan Dana:</strong>
+                        {% set usage = penggunaan_dana[investasi['crowdfunding_id']] %}
+                        {% if usage %}
+                        <table class="table table-sm table-bordered mt-2">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Deskripsi</th>
+                                    <th>Jumlah</th>
+                                    <th>Tanggal Penggunaan</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for u in usage %}
+                                <tr>
+                                    <td>{{ u['description'] }}</td>
+                                    <td>Rp {{ "{:,.0f}".format(u['amount']) }}</td>
+                                    <td>{{ u['used_at'] }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% else %}
+                        <div class="text-muted">Belum ada penggunaan dana.</div>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4" class="text-center">Belum ada investasi.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

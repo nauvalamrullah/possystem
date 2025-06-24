@@ -1,0 +1,18 @@
+{% include 'header.html' %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    <title>Landing Page</title>
+    
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Welcome to Point Of Sales System</h1>
+        <p>Select your role to proceed:</p>
+        <div class="buttons">
+            <a href="{{ url_for('login', role='admin') }}" class="button admin">Login as Admin</a>
+            <a href="{{ url_for('login', role='investor') }}" class="button">Login as Investor</a>
+            <a href="{{ url_for('login', role='investy') }}" class="button">Login as Investy</a>
+            <a href="{{ url_for('login', role='bank') }}" class="button bank">Login as Pihak Bank</a>
+        </div>
+    </div>
+</body>
+</html>

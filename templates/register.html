@@ -1,0 +1,60 @@
+{% include 'header.html'%}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+<div id="main">
+
+<div class="container">
+    <!-- Bagian Kiri -->
+    <div class="left-section">
+        <img src="{{ url_for('static', filename='images/regist.jpg') }}" alt="Registration Illustration" class="gambar-registrasi">
+    </div>
+    
+    <!-- Bagian Kanan -->
+    <div class="right-section">
+        <h2>Registrasi</h2>
+        <form class="form" action="/register" method="POST">
+            <input type="text" placeholder="Email atau Username" name="email" required>
+            <input type="password" placeholder="Password" name="password" required>
+            <input type="text" placeholder="Nama Lengkap" name="fullname" required>
+            <input type="tel" placeholder="Nomor Telepon" name="phone" required>
+            <select name="role" class="form-select mb-3" id="roleSelect" required>
+                <option value="" disabled selected>Pilih Peran Anda</option>
+                <option value="investor">Investor</option>
+                <option value="investy">Investy (UMKM)</option>
+            </select>
+            
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    const selectBox = document.getElementById("roleSelect");
+            
+                    selectBox.addEventListener("change", function() {
+                        if (this.value === "investor") {
+                            this.style.backgroundColor = "#d1e7dd"; // Hijau muda untuk investor
+                        } else if (this.value === "investy") {
+                            this.style.backgroundColor = "#f8d7da"; // Merah muda untuk investy
+                        }
+                    });
+                });
+            </script>    
+            
+            <button type="submit">Daftar</button>
+            <p>Sudah punya akun? 
+                <a href="javascript:void(0);" onclick="goBack()">Login Disini</a>
+            </p>
+            
+            <script>
+                function goBack() {
+                    if (document.referrer) {
+                        window.location.href = document.referrer;
+                    } else {
+                        window.location.href = "/login"; // Default ke login jika tidak ada referrer
+                    }
+                }
+            </script>
+                       
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

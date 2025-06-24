@@ -1,0 +1,87 @@
+/* marketplace.css */
+
+body {
+    background-color: #f8f9fa;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #005f73;
+}
+
+.navbar a {
+    color: white !important;
+}
+
+/* Tombol Search */
+.search-btn {
+    background-color: #ffffff;
+    color: #0a9396;
+}
+
+/* Carousel */
+.carousel-inner img {
+    border-radius: 10px;
+    max-height: 300px;
+    object-fit: cover;
+}
+
+/* Card Produk */
+.product-card {
+    background: #008099;
+    color: white;
+    border-radius: 10px;
+    transition: transform 0.3s ease-in-out;
+    cursor: pointer;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+    width: 180px; 
+    height: 270px; /* Sedikit dipendekkan */
+    margin: 10px; /* Tambahkan jarak antar card */
+    overflow: hidden; /* Memotong bagian bawah */
+    position: relative;
+}
+
+/* Gambar Produk */
+.product-card img {
+    width: 100%;
+    height: 140px; 
+    object-fit: cover;
+    border-radius: 10px 10px 0 0;
+}
+
+/* Bagian Informasi Produk */
+.card-body {
+    padding: 10px;
+    height: 100px; /* Batas agar tidak terlalu panjang */
+}
+
+/* Nama Produk */
+.card-title {
+    font-size: 14px;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Harga Produk */
+.card-text {
+    font-size: 14px;
+    color: #f1c40f;
+}
+
+/* Tombol Keranjang */
+.btn-light {
+    background-color: white;
+    color: #008099;
+    font-weight: bold;
+    font-size: 12px;
+    padding: 5px;
+    width: 100%;
+    border-radius: 5px;
+}
+
+.btn-light:hover {
+    background-color: #005f73;
+    color: white;
+}

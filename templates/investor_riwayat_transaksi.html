@@ -1,0 +1,50 @@
+{% extends "dashboard.html" %}
+
+{% block title %}Riwayat Transaksi{% endblock %}
+
+{% block page_title %}Riwayat Transaksi{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="table-responsive">
+        <table class="table table-striped table-hover shadow">
+            <thead class="table-dark">
+                <tr>
+                    <th>Tanggal</th>
+                    <th>Nama Proyek</th>
+                    <th>Jumlah</th>
+                    <th>Tipe Transaksi</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transaksi in riwayat %}
+                <tr>
+                    <td>{{ transaksi.tanggal }}</td>
+                    <td>{{ transaksi.proyek }}</td>
+                    <td>Rp {{ transaksi.jumlah | int | format }}</td>
+                    <td>
+                        {% if transaksi.tipe == 'investasi' %}
+                            <span class="badge bg-primary">Investasi</span>
+                        {% else %}
+                            <span class="badge bg-warning text-dark">Penarikan</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if transaksi.status == 'berhasil' %}
+                            <span class="badge bg-success">Berhasil</span>
+                        {% else %}
+                            <span class="badge bg-danger">Gagal</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5" class="text-center">Belum ada transaksi.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

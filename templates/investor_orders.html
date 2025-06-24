@@ -1,0 +1,33 @@
+{% extends 'dashboard.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Pesanan Saya</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Tanggal</th>
+                <th>Produk</th>
+                <th>Jumlah</th>
+                <th>Total Harga</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for order in orders %}
+            <tr>
+                <td>{{ order['order_date'] }}</td>
+                <td>{{ order['product_name'] }}</td>
+                <td>{{ order['quantity'] }}</td>
+                <td>Rp {{ order['total_price'] | format_price }}</td>
+                <td>
+                    <span class="badge bg-{{ 'warning' if order['status'] == 'diproses' else 'info' }}">
+                        {{ order['status'].capitalize() }}
+                    </span>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

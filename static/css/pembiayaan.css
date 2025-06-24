@@ -1,0 +1,162 @@
+/* Navbar */
+.navbar {
+    background-color: #005f73;
+    padding: 10px 20px;
+}
+
+.navbar a,
+.navbar-brand,
+.navbar .nav-link {
+    color: white !important;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.navbar .nav-link {
+    padding: 8px 15px;
+    display: flex;
+    align-items: center;
+}
+
+.navbar .nav-item {
+    display: flex;
+    align-items: center;
+}
+
+.navbar .navbar-nav .nav-link {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Cart Icon */
+.cart-icon {
+    position: relative;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.cart-badge {
+    position: absolute;
+    top: -6px;
+    right: -10px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 10px;
+}
+
+/* Tombol Search */
+.search-btn {
+    background-color: #ffffff;
+    color: #0a9396;
+}
+
+/* Hero Section */
+.hero-title {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.highlight {
+    color: #0a9396;
+}
+
+/* Card Styling */
+.card {
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.card-body {
+    padding: 15px;
+}
+
+/* Date & Investor Count */
+.investment-date {
+    font-size: 14px;
+    color: gray;
+}
+
+.investor-count {
+    font-size: 14px;
+    color: #0a9396;
+    float: right;
+}
+
+/* Card Title */
+.card-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+/* Card Text */
+.card-text {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+/* Invest Button */
+.investment-btn {
+    background-color: #0a9396;
+    color: white;
+    font-weight: bold;
+    padding: 8px;
+    width: 100%;
+    border-radius: 5px;
+    text-align: center;
+    display: block;
+}
+
+.investment-btn:hover {
+    background-color: #005f73;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 1.5rem;
+    }
+
+    .card-img {
+        height: 150px;
+    }
+}
+
+/* Warna Hijau Khusus */
+.text-primary-custom {
+    color: #0a9396 !important;
+}
+
+.bg-primary-custom {
+    background-color: #0a9396 !important;
+    color: white !important;
+}
+
+.btn-primary-custom {
+    background-color: #0a9396;
+    color: white;
+    font-weight: bold;
+    border: none;
+}
+
+.btn-primary-custom:hover {
+    background-color: #005f73;
+    color: white;
+}

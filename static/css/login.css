@@ -1,0 +1,123 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f3f1ed;
+}
+
+.container {
+    display: flex;
+    width: 80%;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0.1, 0.1, 0.1, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.left-section {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 20px;
+}
+
+.left-section img {
+    max-width: 100%;
+    height: auto;
+}
+
+.right-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    background-color: #3e80b0;
+    color: white;
+}
+
+.right-section h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.form {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form input {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+.form-select {
+    width: 100%;
+    max-width: 400px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+
+.form button {
+    padding: 10px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.form button:hover {
+    background-color: #333;
+}
+
+.form p {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.form p a {
+    color: #c4ddfb;
+    text-decoration: none;
+}
+
+.form p a:hover {
+    text-decoration: underline;
+}
+.back-to-home {
+    font-size: 12px;
+    color: #f6f8fa;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 5px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+  }
+  
+  .back-to-home:hover {
+    color: white;
+    background-color: #1e7ce1;
+    text-decoration: none;
+  }
+  

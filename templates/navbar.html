@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Icon Bootstrap & FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pembiayaan.css') }}">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Crowdfunding</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+    
+            <div class="collapse navbar-collapse align-items-center" id="navbarNav">
+                <ul class="navbar-nav me-auto align-items-center">
+                    <!-- Keranjang (tanpa badge) -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('view_cart') }}">
+                            <i class="bi bi-cart cart-icon"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('about') }}">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        {% if session['role'] == 'admin' %}
+                        <a class="nav-link" href="{{ url_for('dashboard_admin') }}">Dashboard</a>
+                        {% elif session['role'] == 'investor' %}
+                        <a class="nav-link" href="{{ url_for('dashboard_investor') }}">Dashboard</a>
+                        {% elif session['role'] == 'investy' %}
+                        <a class="nav-link" href="{{ url_for('dashboard_investy') }}">Dashboard</a>
+                        {% elif session['role'] == 'bank' %}
+                        <a class="nav-link" href="{{ url_for('dashboard_bank') }}">Dashboard</a>
+                        {% endif %}
+                    </li>
+                </ul>
+                <form class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Cari Produk" aria-label="Search">
+                    <button class="btn search-btn" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+    
+<script src="{{ url_for('static', filename='js/keranjang.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+{% extends 'dashboard.html' %}
+
+{% block title %}Dashboard User{% endblock %}
+
+{% block page_title %}Selamat Datang, {{ user_role }}{% endblock %}
+
+{% block content %}
+    <div class="card-container">
+        <div class="card blue">
+            <h3>Status Investasi</h3>
+            <p>3 aktif</p>
+            <p>5 selesai</p>
+        </div>
+        
+        <div class="card green">
+            <h3>Data Penjualan Bulan Ini</h3>
+            <p>Produk terjual</p>
+            <p><strong>200 pcs</strong></p>
+        </div>
+        
+        <div class="card yellow">
+            <h3>Pesanan Baru</h3>
+            <p>Pesanan perlu diselesaikan</p>
+            <p><strong>15 pcs</strong></p>
+        </div>
+        
+        <div class="card red">
+            <h3>Penghasilan Penjualan Produk</h3>
+            <p>Penghasilan bulan ini</p>
+            <p><strong>Rp. 2.000.000</strong></p>
+        </div>
+    </div>
+{% endblock %}

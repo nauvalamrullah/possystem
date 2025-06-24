@@ -1,0 +1,53 @@
+{% extends "dashboard.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Kelola Data Pesanan Masuk</h2>
+
+    {% if pesanan %}
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle">
+            <thead class="table-dark text-center">
+                <tr>
+                    <th>ID</th>
+                    <th>Nama Pemesan</th>
+                    <th>Produk</th>
+                    <th>Jumlah</th>
+                    <th>Total Harga</th>
+                    <th>Status</th>
+                    <th>Tanggal</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in pesanan %}
+                <tr>
+                    <td class="text-center">{{ order.id }}</td>
+                    <td>{{ order.fullname }}</td>
+                    <td>{{ order.product_name }}</td>
+                    <td class="text-center">{{ order.quantity }}</td>
+                    <td>Rp {{ '{:,.0f}'.format(order.total_price | float) }}</td>
+                    <td class="text-capitalize text-center">{{ order.status }}</td>
+                    <td class="text-center">{{ order.order_date }}</td>
+                    <td>
+                        <form method="POST" action="/investy/update_status" class="d-flex align-items-center">
+                            <input type="hidden" name="order_id" value="{{ order.id }}">
+                            <select name="status" class="form-select form-select-sm me-2">
+                                <option value="pending" {% if order.status == 'pending' %}selected{% endif %}>Pending</option>
+                                <option value="diproses" {% if order.status == 'diproses' %}selected{% endif %}>Diproses</option>
+                                <option value="dikirim" {% if order.status == 'dikirim' %}selected{% endif %}>Dikirim</option>
+                                <option value="selesai" {% if order.status == 'selesai' %}selected{% endif %}>Selesai</option>
+                            </select>
+                            <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        <div class="alert alert-info text-center">Belum ada pesanan yang masuk.</div>
+    {% endif %}
+</div>
+{% endblock %}

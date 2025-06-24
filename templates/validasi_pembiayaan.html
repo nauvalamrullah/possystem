@@ -1,0 +1,52 @@
+{% extends "dashboard.html" %}
+{% block page_title %}Validasi Pembiayaan{% endblock %}
+{% block content %}
+
+<h4>Halaman Validasi Pembiayaan Bank</h4>
+
+{% if data %}
+<table class="table table-bordered table-striped table-hover mt-3">
+    <thead class="table-primary">
+        <tr>
+            <th>ID</th>
+            <th>Nama Usaha</th>
+            <th>Jumlah Dana</th>
+            <th>Dana Terkumpul</th>
+            <th>Sisa Saldo</th>
+            <th>Status</th>
+            <th>Tanggal</th>
+            <th>Dokumen</th>
+           
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in data %}
+        <tr>
+            <td>{{ item['id'] }}</td>
+            <td>{{ item['business_name'] }}</td>
+            <td>Rp{{ "{:,.0f}".format(item['amount']) }}</td>
+            <td>Rp{{ "{:,.0f}".format(item['funded_amount'] or 0) }}</td>
+            <td>Rp{{ "{:,.0f}".format(item['saldo'] or 0) }}</td>
+            <td>
+                <span class="badge bg-{{ 'success' if item['status'] == 'terpenuhi' else 'info' }}">
+                    {{ item['status'] }}
+                </span>
+            </td>
+            <td>{{ item['created_at'] }}</td>
+            <td>
+                {% if item['document'] %}
+                <a href="{{ url_for('static', filename='uploads/' + item['document']) }}" target="_blank">Lihat</a>
+                {% else %}
+                <span class="text-muted">-</span>
+                {% endif %}
+            </td>
+            
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p class="text-muted">Tidak ada data pembiayaan yang perlu divalidasi.</p>
+{% endif %}
+
+{% endblock %}

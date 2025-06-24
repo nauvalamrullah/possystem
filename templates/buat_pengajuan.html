@@ -1,0 +1,64 @@
+{% extends 'dashboard.html' %}
+{% block content %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap_color.css') }}">
+
+<div class="container-fluid py-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">Buat Pengajuan Baru</h5>
+        </div>
+        <div class="card-body">
+          <form action="{{ url_for('buat_pengajuan') }}" method="POST" enctype="multipart/form-data">
+            <div class="mb-3">
+              <label for="business_name" class="form-label">Nama Usaha</label>
+              <input type="text" class="form-control" id="business_name" name="business_name" placeholder="Contoh: Usaha Martabak Manis" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="amount" class="form-label">Jumlah Pengajuan (Rp)</label>
+              <input type="number" class="form-control" id="amount" name="amount" placeholder="Masukkan nominal" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="description" class="form-label">Deskripsi Pengajuan</label>
+              <textarea class="form-control" id="description" name="description" rows="5" required placeholder="Jelaskan rencana usaha dan penggunaan dana secara lengkap..."></textarea>
+              <small id="word-count" class="text-muted">0 kata</small>
+            </div>
+
+            <div class="mb-3">
+              <label for="cover_image" class="form-label">Upload Cover Gambar</label>
+              <input type="file" class="form-control" name="cover_image" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="document" class="form-label">Upload Dokument PDF</label>
+              <input type="file" class="form-control" name="document" accept="application/pdf" required>
+            </div>              
+
+            <div class="d-flex justify-content-between">
+              <a href="{{ url_for('dashboard_investy') }}" class="btn btn-outline-secondary">Batal</a>
+              <button type="submit" class="btn btn-primary">
+                <i class="bi bi-send-fill me-1"></i> Ajukan
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function countWords(str) {
+    return str.trim().split(/\s+/).filter(word => word.length > 0).length;
+  }
+
+  document.getElementById('description').addEventListener('input', function () {
+    const count = countWords(this.value);
+    document.getElementById('word-count').innerText = `${count} kata`;
+  });
+</script>
+{% endblock %}

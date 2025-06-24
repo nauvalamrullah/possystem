@@ -1,0 +1,43 @@
+{% extends 'dashboard.html' %}
+
+{% block content %}
+<div class="container py-4">
+  <h2 class="mb-4">Daftar Pesanan</h2>
+
+  {% if pesanan %}
+  <table class="table table-bordered">
+    <thead class="table-light">
+        <tr>
+            <th>Tanggal</th>
+            <th>Produk</th>
+            <th>Jumlah</th>
+            <th>Total Harga</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in pesanan %}
+        <tr>
+            <td>{{ order['order_date'] }}</td>
+            <td>{{ order['product_name'] }}</td>
+            <td>{{ order['total_quantity'] }}</td>
+            <td>Rp {{ "{:,.0f}".format(order['total_price'] or 0) }}</td>
+            <td>
+                {% if order['status'] == 'Menunggu Pembayaran' %}
+                    <span class="badge bg-secondary">{{ order['status'] }}</span>
+                {% elif order['status'] == 'Diproses' %}
+                    <span class="badge bg-warning text-dark">{{ order['status'] }}</span>
+                {% else %}
+                    <span class="badge bg-success">{{ order['status'] }}</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+  {% else %}
+    <div class="alert alert-info">Belum ada pesanan.</div>
+  {% endif %}
+</div>
+{% endblock %}

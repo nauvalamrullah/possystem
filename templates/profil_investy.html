@@ -1,0 +1,55 @@
+{% extends 'dashboard.html' %}
+{% block content %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }} alert-dismissible fade show mt-3" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<body>
+<div class="container mt-5">
+    <div class="card shadow rounded-4 p-4">
+        <div class="card-header bg-primary text-white text-center fw-bold fs-5">
+            <i class="fas fa-user-circle me-2"></i> Profil Investy
+          </div>
+        <form method="POST">
+            <div class="row mt-3">
+                <div class="col-md-6 mb-3">
+                    <label><i class="fas fa-user"></i> Nama Lengkap</label>
+                    <input type="text" class="form-control" name="nama_lengkap" value="{{ profil['nama_lengkap'] if profil else '' }}">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label><i class="fas fa-id-card"></i> Nomor KTP</label>
+                    <input type="text" class="form-control" name="nomor_ktp" value="{{ profil['nomor_ktp'] if profil else '' }}">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label><i class="fas fa-map-marker-alt"></i> Alamat</label>
+                    <textarea class="form-control" name="alamat">{{ profil['alamat'] if profil else '' }}</textarea>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label><i class="fas fa-phone-alt"></i> Nomor HP</label>
+                    <input type="text" class="form-control" name="nomor_hp" value="{{ profil['nomor_hp'] if profil else '' }}">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label><i class="fas fa-university"></i> Nama Bank</label>
+                    <input type="text" class="form-control" name="nama_bank" value="{{ profil['nama_bank'] if profil else '' }}">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label><i class="fas fa-credit-card"></i> Nomor Rekening</label>
+                    <input type="text" class="form-control" name="nomor_rekening" value="{{ profil['nomor_rekening'] if profil else '' }}">
+                </div>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary px-4 py-2 mt-3"><i class="fas fa-save"></i> Simpan Profil</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'dashboard.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Validasi Pengguna</h2>
+    
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Nama</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user[0] }}</td>
+                <td>{{ user[1] }}</td>
+                <td>{{ user[2] }}</td>
+                <td>{{ user[3] }}</td>
+                <td>
+                    <button class="btn-validasi btn btn-success" data-id="{{ user[0] }}">Validasi</button>
+                    <button class="btn-tolak btn btn-danger" data-id="{{ user[0] }}">Tolak</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Panggil file JavaScript -->
+<script src="{{ url_for('static', filename='js/validasi_pengguna.js') }}"></script>
+{% endblock %}

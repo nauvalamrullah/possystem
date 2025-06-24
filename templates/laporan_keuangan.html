@@ -1,0 +1,62 @@
+{% extends "dashboard.html" %}
+{% block page_title %}Laporan Keuangan{% endblock %}
+
+{% block content %}
+<p>Laporan Keuangan.</p>
+<div class="container mt-4">
+    <div class="card p-4 shadow-sm">
+        <h5 class="mb-3">Ringkasan Keuangan</h5>
+
+        <div class="row mb-4">
+            <div class="col-md-4 mb-3">
+                <div class="bg-primary text-white p-3 rounded text-center">
+                    <h6>Total Pemasukan</h6>
+                    <h4>Rp {{ "{:,.0f}".format(total_pemasukan or 0) }}</h4>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="bg-danger text-white p-3 rounded text-center">
+                    <h6>Total Pengeluaran</h6>
+                    <h4>Rp {{ "{:,.0f}".format(total_pengeluaran or 0) }}</h4>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="bg-success text-white p-3 rounded text-center">
+                    <h6>Saldo Akhir</h6>
+                    <h4>Rp {{ "{:,.0f}".format(saldo_akhir or 0) }}</h4>
+                </div>
+            </div>
+        </div>
+
+        <h5 class="mb-3">Detail Transaksi</h5>
+        <div class="table-responsive">
+            <table class="table table-striped align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Tanggal</th>
+                        <th>Keterangan</th>
+                        <th>Jenis</th>
+                        <th>Jumlah</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for l in laporan %}
+                    <tr>
+                        <td>{{ l[0] or '-' }}</td>
+                        <td>{{ l[1] or '-' }}</td>
+                        <td>
+                            {% if l[2] == 'pemasukan' %}
+                                <span class="badge bg-primary">Pemasukan</span>
+                            {% else %}
+                                <span class="badge bg-danger">Pengeluaran</span>
+                            {% endif %}
+                        </td>
+                        <td>Rp {{ "{:,.0f}".format(l[3] or 0) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

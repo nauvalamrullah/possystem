@@ -1,0 +1,42 @@
+{% extends 'dashboard.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h4 class="mb-3 text-center">Kalkulator Investasi</h4>
+
+    <!-- Saldo Keuntungan -->
+    <div class="alert alert-info text-center">
+        <strong>Total Keuntungan Anda:</strong> Rp {{ total_keuntungan | int | format_price }}
+    </div>
+
+    <!-- Form Simulasi -->
+    <div class="card p-4 shadow-sm">
+        <form method="POST">
+            <div class="mb-3">
+                <label>Jumlah Modal (Rp)</label>
+                <input type="number" class="form-control" name="modal" required placeholder="Contoh: 1000000">
+            </div>
+            <div class="mb-3">
+                <label>Durasi (bulan)</label>
+                <input type="number" class="form-control" name="durasi" required placeholder="Contoh: 6">
+            </div>
+            <div class="mb-3">
+                <label>Estimasi Margin Usaha per Bulan (%)</label>
+                <input type="number" class="form-control" name="margin" step="0.1" required placeholder="Contoh: 2.5">
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Hitung</button>
+        </form>
+    </div>
+
+    {% if hasil %}
+    <div class="card p-4 shadow-sm mt-4">
+        <h5>Hasil Simulasi</h5>
+        <p><strong>Modal:</strong> Rp {{ hasil.modal | int | format_price }}</p>
+        <p><strong>Durasi:</strong> {{ hasil.durasi }} bulan</p>
+        <p><strong>Margin Usaha:</strong> {{ hasil.margin }}%</p>
+        <p><strong>Return ke Investor / bulan (60%):</strong> Rp {{ hasil.return_investor_per_bulan | int | format_price }}</p>
+        <p><strong>Total Return:</strong> Rp {{ hasil.total_return | int | format_price }}</p>
+        <p><strong>Total Kembali ke Investor:</strong> Rp {{ hasil.total_kembali | int | format_price }}</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,66 @@
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .title {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .button {
+            padding: 15px 30px;
+            font-size: 18px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            text-decoration: #ffffff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            outline: none;  /* Hilangkan highlight biru */
+           
+        }
+
+        .button:hover {
+            background-color: #004fa3;
+            color: #f9f9f9;
+        }
+
+
+        .button.admin {
+            background-color: #ff5722;
+            color:#f9f9f9;
+        }
+
+        .button.admin:hover {
+            background-color: #eb3f0b;
+        }
+
+        .button.bank {
+            background-color: #4caf50;
+            color: #f9f9f9;
+        }
+
+        .button.bank:hover {
+            background-color: #29a331;
+        }

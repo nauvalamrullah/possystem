@@ -1,0 +1,206 @@
+/* Global */
+body {
+    font-family: 'Poppins', Arial, sans-serif;
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #f4f4f4;
+}
+
+/* Header */
+header {
+    background-color: #007aa3;
+    padding: 15px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+header nav a {
+    color: white;
+    margin: 0 10px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+    font-size: 14px;
+}
+
+header nav a:hover {
+    color: #ffdd57;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 200px;
+    background-color: #007aa3;
+    color: white;
+    padding: 15px;
+    position: fixed;
+    height: 100vh;
+    box-shadow: 1px 0 3px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    transition: all 0.3s ease-in-out;
+}
+
+.sidebar h2 {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    border-bottom: 1px solid white;
+    padding-bottom: 8px;
+}
+
+.sidebar a {
+    display: flex;
+    align-items: center;
+    color: white;
+    padding: 8px 12px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    transition: 0.3s ease;
+    border-radius: 5px;
+}
+
+.sidebar a i {
+    margin-right: 8px;
+}
+
+.sidebar a:hover {
+    background-color: #ffffff;
+    color: #007aa3;
+    transform: scale(1.03);
+}
+
+/* Dropdown */
+.dropdown {
+    position: relative;
+}
+
+.dropdown-btn {
+    display: flex;
+    align-items: center;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 13px;
+    padding: 8px 12px;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.dropdown-btn i {
+    margin-right: 8px;
+}
+
+.dropdown-btn:hover {
+    background-color: #ffffff;
+    color: #007aa3;
+}
+
+.dropdown-content {
+    display: none;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding-left: 15px;
+    border-left: 2px solid white;
+    margin-bottom: 5px;
+}
+
+.dropdown-content a {
+    display: block;
+    font-size: 13px;
+    padding: 6px 10px;
+    color: white;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.dropdown-content a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+}
+
+.show {
+    display: block;
+}
+
+/* Content */
+.content {
+    margin-left: 215px;
+    padding: 15px;
+}
+
+/* Card Styling */
+.card {
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    padding: 15px;
+    background-color: white;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Cart icon */
+.cart-icon {
+    position: relative;
+    color: white;
+    transition: transform 0.3s ease;
+}
+
+.cart-icon:hover {
+    transform: scale(1.1);
+}
+
+#cart-count {
+    font-size: 0.75rem;
+    padding: 2px 6px;
+}
+
+/* Bounce animation */
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-6px);
+    }
+}
+
+.animate-bounce {
+    animation: bounce 0.5s ease;
+}
+
+/* Responsive Layout */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+
+    .content {
+        margin-left: 0;
+        padding: 10px;
+    }
+
+    header nav {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    header nav a {
+        margin: 5px 0;
+    }
+}

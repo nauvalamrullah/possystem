@@ -1,0 +1,45 @@
+{% extends "dashboard.html" %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mt-4 mb-4">Kelola Data Pesanan</h2>
+
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Nama Pemesan</th>
+                <th>Produk</th>
+                <th>Jumlah</th>
+                <th>Status</th>
+                <th>Tanggal</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order[0] }}</td>
+                <td>{{ order[1] }}</td>
+                <td>{{ order[2] }}</td>
+                <td>{{ order[3] }}</td>
+                <td>{{ order[4] }}</td>
+                <td>{{ order[5] }}</td>
+                <td>
+                    <form method="POST" action="/admin/update_status" class="d-flex align-items-center">
+                        <input type="hidden" name="order_id" value="{{ order[0] }}">
+                        <select name="status" class="form-select form-select-sm me-2">
+                            <option value="pending" {% if order[4] == 'pending' %}selected{% endif %}>Pending</option>
+                            <option value="diproses" {% if order[4] == 'diproses' %}selected{% endif %}>Diproses</option>
+                            <option value="dikirim" {% if order[4] == 'dikirim' %}selected{% endif %}>Dikirim</option>
+                            <option value="selesai" {% if order[4] == 'selesai' %}selected{% endif %}>Selesai</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary btn-sm">Update</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

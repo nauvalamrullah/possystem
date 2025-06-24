@@ -1,0 +1,88 @@
+{% extends "dashboard.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Pengelolaan Admin</h2>
+
+    <div class="card p-4 shadow-sm">
+        <!-- Tab Nav (Satu Tab Saja) -->
+        <ul class="nav nav-pills mb-3" id="adminTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="admin-tab" data-bs-toggle="pill" data-bs-target="#admin" type="button" role="tab">Manajemen Admin</button>
+            </li>
+        </ul>
+
+        <!-- Tab Content -->
+        <div class="tab-content" id="adminTabContent">
+            <div class="tab-pane fade show active" id="admin" role="tabpanel">
+                <div class="row">
+                    <!-- Kolom Kiri: Edit Profil -->
+                    <div class="col-md-6">
+                        <h5>Edit Profil Saya</h5>
+                        <form id="formEditProfil">
+                            <div class="mb-3">
+                                <label class="form-label">Nama Lengkap</label>
+                                <input type="text" class="form-control" placeholder="Masukkan nama Anda">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" placeholder="Masukkan email Anda">
+                            </div>
+                            <button class="btn btn-primary" type="submit">Simpan</button>
+                        </form>
+                    </div>
+
+                    <!-- Kolom Kanan: Tambah Admin -->
+                    <div class="col-md-6">
+                        <h5>Tambah Admin Baru</h5>
+                        <form id="formTambahAdmin">
+                            <div class="mb-3">
+                                <label class="form-label">Nama Admin Baru</label>
+                                <input type="text" class="form-control" placeholder="Contoh: Admin 2">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" placeholder="Email aktif admin baru">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Password</label>
+                                <input type="password" class="form-control" placeholder="Password sementara">
+                            </div>
+                            <button class="btn btn-success" type="submit">Tambah</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alert -->
+        <div id="alertPlaceholder" class="mt-4"></div>
+    </div>
+</div>
+
+<!-- Bootstrap Icons (optional, jika dipakai) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+<!-- JS untuk Simulasi Form -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const forms = document.querySelectorAll("form");
+    forms.forEach(form => {
+        form.addEventListener("submit", function (e) {
+            e.preventDefault();
+            showAlert("Data berhasil diproses!", "success");
+        });
+    });
+
+    function showAlert(message, type) {
+        const alertPlaceholder = document.getElementById('alertPlaceholder');
+        alertPlaceholder.innerHTML = `
+            <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        `;
+    }
+});
+</script>
+{% endblock %}

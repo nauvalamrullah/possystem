@@ -1,0 +1,53 @@
+{% extends 'dashboard.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Daftar Semua Investasi</h2>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+    {% if investasi %}
+    <table class="table table-bordered table-hover">
+        <thead class="table-light">
+            <tr>
+                <th>ID</th>
+                <th>Nama Usaha</td>
+                <th>Deskripsi</th>
+                <th>Jumlah</th>
+                <th>Status</th>
+                <th>Tanggal</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for inv in investasi %}
+            <tr>
+                <td>{{ inv.id }}</td>
+                <td>{{ inv.business_name }}</td>
+                <td>{{ inv.description }}</td>
+                <td>Rp {{ inv.amount }}</td>
+                <td>{{ inv.status }}</td>
+                <td>{{ inv.created_at }}</td>
+                <td>
+                    <form method="POST" action="{{ url_for('hapus_investasi', id=inv.id) }}" onsubmit="return confirm('Yakin ingin menghapus?');">
+                        <button class="btn btn-sm btn-danger">Hapus</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p class="text-muted">Tidak ada data investasi.</p>
+    {% endif %}
+</div>
+{% endblock %}

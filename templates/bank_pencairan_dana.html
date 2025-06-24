@@ -1,0 +1,34 @@
+{% extends 'dashboard.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h3>Daftar Pencairan Dana</h3>
+    {% if proyek %}
+    <table class="table table-bordered mt-3">
+        <thead>
+            <tr>
+                <th>Nama Usaha</th>
+                <th>Total Dana</th>
+                <th>Tanggal</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in proyek %}
+            <tr>
+                <td>{{ p['business_name'] }}</td>
+                <td>Rp {{ '{:,.0f}'.format(p['funded_amount']) }}</td>
+                <td>{{ p['created_at'] }}</td>
+                <td>
+                    <form action="{{ url_for('cairkan_dana', id=p['id']) }}" method="post">
+                        <button type="submit" class="btn btn-success btn-sm">Cairkan Dana</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="alert alert-info">Belum ada proyek yang bisa dicairkan.</div>
+    {% endif %}
+</div>
+{% endblock %}

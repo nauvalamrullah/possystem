@@ -1,0 +1,47 @@
+{% extends 'dashboard.html' %}
+
+{% block page_title %}Dashboard Bank{% endblock %}
+
+{% block content %}
+<h2>Halaman Dashboard bank.</h2>
+
+<div class="container mt-5">
+    
+    <div class="row g-4">
+
+        <!-- Card Validasi Pembiayaan -->
+        <div class="col-md-6">
+            <div class="card shadow border-0">
+                <div class="card-body d-flex align-items-center">
+                    <div class="me-3">
+                        <i class="fas fa-file-signature fa-2x text-primary"></i>
+                    </div>
+                    <div>
+                        <h5 class="card-title mb-1">Validasi Pembiayaan</h5>
+                        <p class="card-text text-muted">{{ jumlah_pembiayaan }} permintaan</p>
+                        <a href="{{ url_for('validasi_pembiayaan') }}" class="btn btn-sm btn-outline-primary">Lihat Detail</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card Pembayaran Tertunda -->
+        <div class="col-md-6">
+            <div class="card shadow border-0">
+                <div class="card-body d-flex align-items-center">
+                    <div class="me-3">
+                        <i class="fas fa-clock fa-2x text-warning"></i>
+                    </div>
+                    <div>
+                        <h5 class="card-title mb-1">Cairkan Dana</h5>
+                        <p class="card-text text-muted">{{ pencairan_dana }} transaksi</p>
+                        <a href="{{ url_for('daftar_pencairan_dana') }}" class="btn btn-sm btn-outline-warning">Lihat Detail</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

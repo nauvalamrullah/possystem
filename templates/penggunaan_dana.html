@@ -1,0 +1,31 @@
+{% extends "dashboard.html" %}
+
+{% block title %}Penggunaan Dana{% endblock %}
+{% block page_title %}Rincian Penggunaan Dana untuk {{ project.business_name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    {% if usage %}
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Deskripsi</th>
+                <th>Jumlah</th>
+                <th>Tanggal Penggunaan</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for u in usage %}
+            <tr>
+                <td>{{ u.description }}</td>
+                <td>Rp {{ u.amount | int | format }}</td>
+                <td>{{ u.used_at }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="alert alert-info">Belum ada catatan penggunaan dana.</div>
+    {% endif %}
+</div>
+{% endblock %}

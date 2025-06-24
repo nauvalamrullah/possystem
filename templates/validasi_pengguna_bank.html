@@ -1,0 +1,37 @@
+{% extends 'dashboard.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Validasi Pengguna Baru</h2>
+    {% if users %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nama Lengkap</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user[1] }}</td>
+                        <td>{{ user[2] }}</td>
+                        <td>{{ user[3] }}</td>
+                        <td>
+                            <form method="post" style="display: inline;">
+                                <input type="hidden" name="user_id" value="{{ user[0] }}">
+                                <button type="submit" name="action" value="accept" class="btn btn-success btn-sm">Terima</button>
+                                <button type="submit" name="action" value="reject" class="btn btn-danger btn-sm">Tolak</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Tidak ada pengguna yang perlu divalidasi.</p>
+    {% endif %}
+</div>
+{% endblock %}

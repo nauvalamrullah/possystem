@@ -1,0 +1,71 @@
+{% extends 'dashboard.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h3 class="mb-4 text-center">Formulir Checkout</h3>
+    <form method="POST">
+        {% if role == 'investor' %}
+        <div class="mb-3">
+            <label>Nama Lengkap</label>
+            <input type="text" class="form-control" name="full_name" required>
+        </div>
+        <div class="mb-3">
+            <label>Nomor Telepon</label>
+            <input type="text" class="form-control" name="phone_number" required>
+        </div>
+        <div class="mb-3">
+            <label>Alamat Pengiriman</label>
+            <textarea class="form-control" name="shipping_address" required></textarea>
+        </div>
+        {% else %}
+        <div class="mb-3">
+            <label>Nama Lengkap</label>
+            <input type="text" class="form-control" name="nama" required>
+        </div>
+        <div class="mb-3">
+            <label>Alamat Penerima</label>
+            <textarea class="form-control" name="alamat" required></textarea>
+        </div>
+        <div class="mb-3">
+            <label>Metode Pembayaran</label>
+            <select name="metode_pembayaran" class="form-control" id="metode_pembayaran" required>
+                <option value="pribadi">Dana Pribadi</option>
+                <option value="investasi">Gunakan Dana Investasi</option>
+            </select>
+        </div>
+        <div class="mb-3" id="proyek-container">
+            <label>Pilih Proyek (Dana Investasi)</label>
+            <select name="crowdfunding_id" class="form-control" id="crowdfunding_id">
+                {% for proyek in proyek_aktif %}
+                <option value="{{ proyek.id }}">
+                    {{ proyek.business_name }} - Saldo: Rp {{ proyek.saldo | format_price }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        {% endif %}
+        <button type="submit" class="btn btn-success">Lanjutkan Pembayaran</button>
+    </form>
+</div>
+
+<!-- JavaScript dinamis toggle proyek -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const metodeSelect = document.getElementById('metode_pembayaran');
+        const proyekContainer = document.getElementById('proyek-container');
+
+        function toggleProyek() {
+            if (metodeSelect.value === 'investasi') {
+                proyekContainer.style.display = 'block';
+            } else {
+                proyekContainer.style.display = 'none';
+            }
+        }
+
+        // Event listener saat metode dipilih
+        metodeSelect.addEventListener('change', toggleProyek);
+
+        // Jalankan saat halaman dimuat
+        toggleProyek();
+    });
+</script>
+{% endblock %}

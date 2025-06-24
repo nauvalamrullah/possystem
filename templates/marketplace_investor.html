@@ -1,0 +1,164 @@
+{% extends 'dashboard.html' %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/marketplace.css') }}">
+
+<!-- Banner Promo -->
+<div class="container mt-4">
+    <div id="promoCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="{{ url_for('static', filename='images/produkumkm.png') }}" class="d-block w-100" alt="Promo 1">
+            </div>
+            <div class="carousel-item">
+                <img src="{{ url_for('static', filename='images/promo2.jpg') }}" class="d-block w-100" alt="Promo 2">
+            </div>
+            <div class="carousel-item">
+                <img src="{{ url_for('static', filename='images/promo3.jpg') }}" class="d-block w-100" alt="Promo 3">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#promoCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#promoCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+    </div>
+</div>
+
+<!-- Produk UMKM -->
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Marketplace Produk UMKM</h2>
+    <div class="row justify-content-center">
+        {% for product in products %}
+        <div class="col-md-3 mb-4">
+            <div class="card shadow-sm">
+                <img src="{{ product.image }}" class="card-img-top" alt="{{ product.name }}" style="height: 200px; object-fit: contain;">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title text-center">{{ product.name }}</h5>
+                    <p class="text-center text-success fw-bold">Rp. {{ "{:,.0f}".format(product.price | float) }}</p>
+                    <button class="btn btn-primary mt-auto w-100"
+                        onclick="showProductModal('{{ product.id }}', '{{ product.name }}', '{{ product.price }}', '{{ product.image }}', '{{ product.stock }}')">
+                        <i class="bi bi-cart-plus"></i> Keranjang
+                    </button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Modal Produk -->
+<div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Detail Produk</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+      </div>
+      <div class="modal-body d-flex flex-wrap">
+        <div class="col-md-5 text-center mb-3">
+          <img id="modalProductImage" src="" class="img-fluid rounded" style="max-height: 250px;">
+        </div>
+        <div class="col-md-7">
+          <h4 id="modalProductName" class="fw-bold" data-product-id=""></h4>
+          <h5 class="text-success" id="modalProductPrice"></h5>
+          <p id="modalProductStock" class="text-muted"></p>
+          <div class="input-group my-3" style="width: 130px;">
+            <button class="btn btn-outline-secondary" onclick="decreaseQuantity()">-</button>
+            <input type="text" id="quantityInput" class="form-control text-center" value="1">
+            <button class="btn btn-outline-secondary" onclick="increaseQuantity()">+</button>
+          </div>
+          <div class="d-grid gap-2">
+            <button class="btn btn-primary" onclick="addToCart()">🛒 Masukkan Keranjang</button>
+            <button class="btn btn-info text-white" onclick="orderNow()">Pesan Sekarang</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Script Modal & Cart -->
+<script>
+let currentStock = 0;
+
+function showProductModal(id, name, price, image, stok) {
+    currentStock = parseInt(stok);
+    document.getElementById("modalProductName").innerText = name;
+    document.getElementById("modalProductName").dataset.productId = id;
+    document.getElementById("modalProductPrice").innerText = "Rp. " + parseFloat(price).toLocaleString('id-ID');
+    document.getElementById("modalProductImage").src = image;
+    document.getElementById("modalProductStock").innerText = "Stok tersedia: " + stok;
+    document.getElementById("quantityInput").value = 1;
+    new bootstrap.Modal(document.getElementById('productModal')).show();
+}
+
+function increaseQuantity() {
+    let input = document.getElementById("quantityInput");
+    let currentQty = parseInt(input.value);
+    if (currentQty < currentStock) {
+        input.value = currentQty + 1;
+    } else {
+        alert("Jumlah melebihi stok tersedia!");
+    }
+}
+
+function decreaseQuantity() {
+    let input = document.getElementById("quantityInput");
+    if (parseInt(input.value) > 1) {
+        input.value = parseInt(input.value) - 1;
+    }
+}
+
+function addToCart() {
+    let productId = document.getElementById("modalProductName").dataset.productId;
+    let quantity = parseInt(document.getElementById("quantityInput").value);
+
+    if (quantity > currentStock) {
+        alert("Jumlah melebihi stok yang tersedia!");
+        return;
+    }
+
+    fetch(`/add_to_cart/${productId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: `quantity=${quantity}`
+    }).then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert("Produk berhasil ditambahkan ke keranjang!");
+            updateCartCount();
+        } else {
+            alert("Gagal menambahkan produk ke keranjang.");
+        }
+    }).catch(error => {
+        console.error("Error:", error);
+        alert("Terjadi kesalahan saat menambahkan ke keranjang.");
+    });
+}
+
+function updateCartCount() {
+    fetch('/cart/count')
+        .then(response => response.json())
+        .then(data => {
+            const cartCount = document.getElementById('cart-count');
+            cartCount.innerText = data.count;
+        });
+}
+
+function orderNow() {
+    let productId = document.getElementById("modalProductName").dataset.productId;
+    let quantity = parseInt(document.getElementById("quantityInput").value);
+
+    if (quantity > currentStock) {
+        alert("Jumlah melebihi stok yang tersedia!");
+        return;
+    }
+
+    window.location.href = `/order_now/${productId}?qty=${quantity}`;
+}
+</script>
+{% endblock %}

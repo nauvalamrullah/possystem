@@ -1,0 +1,82 @@
+{% extends "dashboard.html" %}
+{% block page_title %}Validasi Transaksi{% endblock %}
+
+{% block content %}
+<p>Validasi Transaksi Pengguna.</p>
+<div class="container mt-4">
+
+
+    <div class="table-responsive">
+        <table class="table table-hover table-striped align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Nama Investor</th>
+                    <th>Jumlah</th>
+                    <th>Status</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for t in transaksi %}
+                <tr>
+                    <td>{{ t[0] }}</td>
+                    <td>{{ t[1] }}</td>
+                    <td>Rp {{ "{:,.0f}".format(t[2]) }}</td>
+                    <td>
+                        {% if t[3] == 'menunggu_validasi' %}
+                            <span class="badge bg-warning text-dark">Menunggu</span>
+                        {% elif t[3] == 'disetujui' %}
+                            <span class="badge bg-success">Disetujui</span>
+                        {% else %}
+                            <span class="badge bg-danger">Ditolak</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <button class="btn btn-success btn-sm" onclick="konfirmasiSetujui({{ t[0] }})">Setujui</button>
+                        <button class="btn btn-danger btn-sm" onclick="konfirmasiTolak({{ t[0] }})">Tolak</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    function konfirmasiSetujui(id) {
+        Swal.fire({
+            title: 'Apakah Anda yakin?',
+            text: "Menyetujui transaksi ini!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#198754',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Setujui!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '/validasi_transaksi/setujui/' + id;
+            }
+        })
+    }
+
+    function konfirmasiTolak(id) {
+        Swal.fire({
+            title: 'Apakah Anda yakin?',
+            text: "Menolak transaksi ini!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Ya, Tolak!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '/validasi_transaksi/tolak/' + id;
+            }
+        })
+    }
+</script>
+{% endblock %}

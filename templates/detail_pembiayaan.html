@@ -1,0 +1,66 @@
+{% include 'navbar.html' %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pembiayaan.css') }}">
+
+<body>
+<div class="container mt-5">
+    {% if data %}
+            <h2 class="text-center mb-3">
+                Investasi untuk <strong class="text-primary-custom">{{ data['business_name'] }}</strong>
+            </h2>
+        <p class="text-center text-muted">Dukung UMKM ini dengan kontribusi terbaikmu.</p>
+
+        <div class="row mt-4">
+            <!-- Kolom Gambar -->
+            <div class="col-md-5 text-center">
+                {% if data['cover_image'] %}
+                    <img src="{{ url_for('static', filename='uploads/' ~ data['cover_image']) }}"
+                         alt="Foto Usaha"
+                         class="img-fluid rounded shadow-sm"
+                         style="max-height: 350px; object-fit: cover; width: 100%;">
+                {% else %}
+                    <div class="alert alert-warning">Gambar usaha belum tersedia.</div>
+                {% endif %}
+            </div>
+
+            <!-- Kolom Deskripsi & Form -->
+            <div class="col-md-7">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <p><strong>Butuh Dana:</strong>
+                            <span class="text-primary fw-bold">Rp {{ '{:,.0f}'.format(data['amount']) }}</span>
+                        </p>
+                        <p><strong>Deskripsi Usaha:</strong><br>{{ data['description'] }}</p>
+
+                        {% if data['document'] %}
+                            <p><strong>Dokumen Usaha:</strong><br>
+                                <a href="{{ url_for('static', filename='uploads/' ~ data['document']) }}"
+                                   target="_blank"
+                                   class="btn btn-outline-secondary btn-sm">Lihat Dokumen</a>
+                            </p>
+                        {% else %}
+                            <p class="text-muted">Tidak ada dokumen yang tersedia.</p>
+                        {% endif %}
+
+                        <!-- Form Investasi -->
+                        <form action="/invest" method="POST">
+                            <input type="hidden" name="crowdfunding_id" value="{{ request_id }}">
+                            <input type="hidden" name="investor_id" value="{{ session['user_id'] }}">
+                        
+                            <div class="mb-3">
+                                <label for="amount" class="form-label"><strong>Jumlah Investasi (Rp)</strong></label>
+                                <input type="number" id="amount" name="amount" class="form-control"
+                                       placeholder="Contoh: 1000000" required>
+                            </div>
+                        
+                            <button type="submit" class="btn btn-primary-custom w-100">Konfirmasi Investasi</button>
+                        </form>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="alert alert-danger text-center">Data pembiayaan tidak ditemukan.</div>
+    {% endif %}
+</div>
+</body>
+</html>

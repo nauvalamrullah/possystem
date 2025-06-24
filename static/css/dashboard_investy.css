@@ -1,0 +1,31 @@
+/* custom.css */
+.card-body {
+    padding: 1.5rem;
+  }
+  
+  .card-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+  
+  .table th, .table td {
+    vertical-align: middle;
+  }
+  
+  .table {
+    margin-bottom: 0;
+  }
+  
+  .btn-link {
+    text-decoration: none;
+  }
+  
+  .btn-link:hover {
+    text-decoration: underline;
+  }
+  
+  .badge {
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+  

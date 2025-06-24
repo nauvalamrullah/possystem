@@ -1,0 +1,202 @@
+{% extends 'dashboard.html' %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">Dashboard Admin</h1>
+
+    <div class="row">
+        <!-- Jumlah Produk -->
+        <div class="col-md-3 mb-4">
+            <div class="card shadow h-100 py-2">
+                <div class="card-body d-flex align-items-center">
+                    <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                        <i class="fas fa-box"></i>
+                    </div>
+                    <div class="ms-3">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Jumlah Produk</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ jumlah_produk }}</div>
+                        <a href="/kelola_produk" class="btn btn-sm btn-primary mt-2">Kelola Produk</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Jumlah Pesanan -->
+        <div class="col-md-3 mb-4">
+            <div class="card shadow h-100 py-2">
+                <div class="card-body d-flex align-items-center">
+                    <div class="rounded-circle bg-success text-white d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div class="ms-3">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Jumlah Pesanan</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ jumlah_pesanan }}</div>
+                        <a href="/kelola_pesanan" class="btn btn-sm btn-success mt-2">Kelola Pesanan</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Validasi Investasi -->
+        <div class="col-md-3 mb-4">
+            <div class="card shadow h-100 py-2">
+                <div class="card-body d-flex align-items-center">
+                    <div class="rounded-circle bg-warning text-white d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div class="ms-3">
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Validasi Investasi</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ validasi_investasi }}</div>
+                        <a href="/admin/validasi-investasi" class="btn btn-sm btn-warning mt-2">Validasi Sekarang</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Investasi -->
+        <div class="col-md-3 mb-4">
+            <div class="card shadow h-100 py-2">
+                <div class="card-body d-flex align-items-center">
+                    <div class="rounded-circle bg-info text-white d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div class="ms-3">
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Total Investasi</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">${{ "{:,.2f}".format(total_investasi) }}</div>
+                        <a href="/admin/laporan-investasi" class="btn btn-sm btn-info mt-2">Lihat Laporan</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Grafik Section -->
+    <div class="row">
+        <!-- Area Chart -->
+        <div class="col-xl-8 col-lg-7">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Investasi Selesai</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-area">
+                        <canvas id="myAreaChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pie Chart -->
+        <div class="col-xl-4 col-lg-5">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Persentase Data</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-pie pt-4 pb-2">
+                        <canvas id="myPieChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Style Tambahan -->
+<style>
+    .card-custom {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        padding: 20px;
+        height: 100%;
+        transition: 0.3s;
+    }
+    .card-custom:hover {
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    .btn-card {
+        margin-top: 10px;
+        font-size: 12px;
+        padding: 5px 10px;
+        background-color: #4e73df;
+        color: #fff;
+        border-radius: 20px;
+        text-decoration: none;
+    }
+</style>
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Script Charts -->
+<script>
+    // Area Chart
+    var ctx = document.getElementById("myAreaChart").getContext("2d");
+    var myAreaChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+            datasets: [{
+                label: "Earnings",
+                data: {{ earnings_per_month | tojson }},
+                backgroundColor: "rgba(78, 115, 223, 0.05)",
+                borderColor: "rgba(78, 115, 223, 1)",
+                pointRadius: 3,
+                pointBackgroundColor: "rgba(78, 115, 223, 1)",
+                pointBorderColor: "rgba(255, 255, 255, 0.8)",
+                pointHoverRadius: 3,
+                pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+                pointHitRadius: 10,
+                pointBorderWidth: 2,
+            }]
+        },
+        options: {
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    grid: { display: false }
+                },
+                y: {
+                    ticks: {
+                        beginAtZero: true,
+                        callback: function(value) {
+                            return 'Rp' + value.toLocaleString('id-ID');
+                        }
+                    }
+                }
+            },
+            plugins: {
+                legend: { display: false }
+            }
+        }
+    });
+
+    // Pie Chart
+    var ctxPie = document.getElementById("myPieChart").getContext("2d");
+    var myPieChart = new Chart(ctxPie, {
+        type: 'pie',
+        data: {
+            labels: ["Jumlah Produk", "Jumlah Pesanan", "Validasi Investasi", "Total Investasi"],
+            datasets: [{
+                data: [
+                    {{ jumlah_produk }},
+                    {{ jumlah_pesanan }},
+                    {{ validasi_investasi }},
+                    {{ (total_investasi // 10000) if total_investasi else 0 }}
+                ],
+                backgroundColor: ["#4e73df", "#1cc88a", "#f6c23e", "#36b9cc"],
+                hoverBackgroundColor: ["#2e59d9", "#17a673", "#dda20a", "#2c9faf"],
+                borderColor: "#fff",
+                borderWidth: 2
+            }]
+        },
+        options: {
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: true }
+            }
+        }
+    });
+</script>
+{% endblock %}

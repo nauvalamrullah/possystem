@@ -1,0 +1,20 @@
+/* static/css/custom.css */
+:root {
+    --bs-primary: #007B9E; /* override primary Bootstrap */
+  }
+  
+  .card-header.bg-primary {
+    background-color: var(--bs-primary) !important;
+    border-color: var(--bs-primary) !important;
+  }
+  
+  .btn-primary {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+  }
+  
+  .btn-primary:hover {
+    background-color: #4dccef;
+    border-color: darken(var(--bs-primary), 10%);
+  }
+  

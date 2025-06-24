@@ -1,0 +1,132 @@
+{% extends 'dashboard.html' %}
+<link href="{{ url_for('static', filename='css/dashboard_investy.css') }}" rel="stylesheet">
+
+{% block content %}
+<div class="container py-4">
+  <h1 class="text-center mb-4">Dashboard Investy</h1>
+
+  <!-- Statistik Pengajuan -->
+  <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
+    <div class="col">
+      <div class="card shadow-sm text-center">
+        <div class="card-body">
+          <h5 class="card-title text-muted">Total Pengajuan</h5>
+          <p class="card-text fs-2">{{ total_requests }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card shadow-sm text-center">
+        <div class="card-body">
+          <h5 class="card-title text-muted">Pengajuan Disetujui</h5>
+          <p class="card-text fs-2">{{ approved_count }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card shadow-sm text-center">
+        <div class="card-body">
+          <h5 class="card-title text-muted">Pengajuan Ditolak</h5>
+          <p class="card-text fs-2">{{ rejected_count }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Grafik Pengajuan -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-body">
+      <h5 class="card-title">Grafik Pengajuan</h5>
+      <canvas id="pengajuanChart" height="120"></canvas>
+    </div>
+  </div>
+
+  <!-- Riwayat -->
+  <div class="d-flex justify-content-between mb-4">
+    <h5>Riwayat Pengajuan</h5>
+    <a href="{{ url_for('buat_pengajuan') }}" class="btn btn-primary">+ Buat Pengajuan Baru</a>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Nama Bisnis</th>
+            <th>Tanggal</th>
+            <th>Jumlah</th>
+            <th>Status</th>
+            <th>Cover</th>
+            <th>Proposal</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for req in requests %}
+          <tr>
+            <td>{{ req.business_name }}</td>
+            <td>{{ req.created_at }}</td>
+            <td>Rp {{ "{:,.0f}".format(req.amount) }}</td>
+            <td>
+              {% if req.status == 'pending' %}
+                  <span class="badge bg-warning text-dark">Menunggu</span>
+              {% elif req.status == 'approved' %}
+                  <span class="badge bg-success">Disetujui</span>
+              {% elif req.status == 'rejected' %}
+                  <span class="badge bg-danger">Ditolak</span>
+              {% else %}
+                  <span class="badge bg-secondary">{{ req.status }}</span>
+              {% endif %}
+            </td>
+            
+            <td>
+              {% if req.cover_image %}
+                <a href="{{ url_for('static', filename='uploads/' ~ req.cover_image) }}" target="_blank" class="btn btn-sm btn-outline-primary">Lihat</a>
+              {% else %}
+                <form action="{{ url_for('upload_cover', request_id=req.id) }}" method="POST" enctype="multipart/form-data" class="d-inline">
+                  <input type="file" name="cover_image" class="form-control form-control-sm d-inline w-auto">
+                  <button type="submit" class="btn btn-sm btn-primary">Upload</button>
+                </form>
+              {% endif %}
+            </td>
+            <td>
+                {% if req.document %}
+                  <a href="{{ url_for('static', filename='uploads/' ~ req.document) }}" target="_blank" class="btn btn-sm btn-outline-success">Lihat</a>
+                {% else %}
+                  <form action="{{ url_for('upload_document', request_id=req.id) }}" method="post" enctype="multipart/form-data">
+                    <input type="file" name="document" class="form-control form-control-sm d-inline w-auto">
+                    <button type="submit" class="btn btn-sm btn-success">Upload</button>
+                  </form>
+                {% endif %}
+              </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const ctx = document.getElementById('pengajuanChart').getContext('2d');
+  const pengajuanChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: {{ chart_labels|tojson }},
+      datasets: [{
+        label: 'Jumlah Pengajuan',
+        data: {{ chart_data|tojson }},
+        fill: false,
+        borderColor: 'rgb(75, 192, 192)',
+        tension: 0.3
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: { beginAtZero: true }
+      }
+    }
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends 'dashboard.html' %}
+<link href="{{ url_for('static', filename='css/dashboard_investy.css') }}" rel="stylesheet">
+
+{% block content %}
+<div class="container py-4">
+  <h1 class="text-center mb-4">Dashboard Investy</h1>
+
+  <!-- Button untuk Pengajuan Baru -->
+  <div class="d-flex justify-content-between mb-4">
+    <h5>Riwayat Pengajuan</h5>
+    <a href="{{ url_for('buat_pengajuan') }}" class="btn btn-primary">+ Buat Pengajuan Baru</a>
+  </div>
+
+  <!-- Tabel Riwayat Pengajuan -->
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Nama Bisnis</th>
+            <th>Tanggal</th>
+            <th>Jumlah</th>
+            <th>Status</th>
+            <th>Cover</th>
+            <th>Proposal</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for req in requests %}
+          <tr>
+            <td>{{ req.business_name }}</td>
+            <td>{{ req.created_at }}</td>
+            <td>Rp {{ "{:,.0f}".format(req.amount) }}</td>
+            <td>
+              {% if req.status == 'pending' %}
+                  <span class="badge bg-warning text-dark">Menunggu</span>
+              {% elif req.status == 'approved' %}
+                  <span class="badge bg-success">Disetujui</span>
+              {% elif req.status == 'rejected' %}
+                  <span class="badge bg-danger">Ditolak</span>
+              {% else %}
+                  <span class="badge bg-secondary">{{ req.status }}</span>
+              {% endif %}
+            </td>
+            
+            <td>
+              {% if req.cover_image %}
+                <a href="{{ url_for('static', filename='uploads/' ~ req.cover_image) }}" target="_blank" class="btn btn-sm btn-outline-primary">Lihat</a>
+              {% else %}
+                <form action="{{ url_for('upload_cover', request_id=req.id) }}" method="POST" enctype="multipart/form-data" class="d-inline">
+                  <input type="file" name="cover_image" class="form-control form-control-sm d-inline w-auto">
+                  <button type="submit" class="btn btn-sm btn-primary">Upload</button>
+                </form>
+              {% endif %}
+            </td>
+            <td>
+                {% if req.document %}
+                  <a href="{{ url_for('static', filename='uploads/' ~ req.document) }}" target="_blank" class="btn btn-sm btn-outline-success">Lihat</a>
+                {% else %}
+                  <form action="{{ url_for('upload_document', request_id=req.id) }}" method="post" enctype="multipart/form-data">
+                    <input type="file" name="document" class="form-control form-control-sm d-inline w-auto">
+                    <button type="submit" class="btn btn-sm btn-success">Upload</button>
+                  </form>
+                {% endif %}
+              </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>      
+    </div>
+  </div>
+</div>
+{% endblock %}

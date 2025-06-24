@@ -1,0 +1,43 @@
+{% include 'header.html' %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+
+<div id="main">
+    <div class="main">
+        <div class="container">
+            <!-- Bagian Kiri -->
+            <div class="left-section">
+                <img src="{{ url_for('static', filename='images/login.jpg') }}" alt="Login Image" class="gambar-login">
+            </div>
+            
+            <!-- Bagian Kanan -->
+            <div class="right-section">
+                <h2>Login as {{ role.capitalize() if role else 'User' }}</h2>
+
+              
+
+                <form class="form" action="{{ url_for('login', role=role) }}" method="POST">
+                    <input type="text" placeholder="Email or Username" name="email" required>
+                    <input type="password" placeholder="Password" name="password" required>
+                  
+                    {% if role == 'investy' %}                  
+                    <p>Don't have an account? <a href="{{ url_for('register') }}">Register here</a></p>
+                    {% endif %}
+                    {% if role == 'investor' %}                  
+                    <p>Don't have an account? <a href="{{ url_for('register') }}">Register here</a></p>
+                    {% endif %}
+                    <button type="submit">Login</button>
+                </form>
+
+                <!-- Tombol Back -->
+                <a href="{{ url_for('home') }}" class="back-to-home" style="display:inline-block; margin-top:10px;">
+                    ← Back to Home
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>

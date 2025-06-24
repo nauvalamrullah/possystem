@@ -1,0 +1,44 @@
+{% extends 'dashboard.html' %}
+
+{% block content %}
+<div class="container py-4">
+  <h2 class="mb-4">Daftar Pesanan</h2>
+
+  {% if pesanan %}
+    <table class="table table-hover">
+      <thead class="table-light">
+        <tr>
+          <th>Tanggal</th>
+          <th>Produk</th>
+          <th>Jumlah</th>
+          <th>Total Harga</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in pesanan %}
+        <tr>
+          <td>{{ p.order_date }}</td>
+          <td>{{ p.product_name }}</td>
+          <td>{{ p.quantity }}</td>
+          <td>Rp {{ "{:,.0f}".format(p.total_price) }}</td>
+          <td>
+            {% if p.status == 'diproses' %}
+              <span class="badge bg-warning text-dark">Diproses</span>
+            {% elif p.status == 'dikirim' %}
+              <span class="badge bg-info text-white">Dikirim</span>
+            {% elif p.status == 'selesai' %}
+              <span class="badge bg-success">Selesai</span>
+            {% else %}
+              <span class="badge bg-secondary">{{ p.status }}</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <div class="alert alert-info">Belum ada pesanan.</div>
+  {% endif %}
+</div>
+{% endblock %}
